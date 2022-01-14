@@ -7,3 +7,7 @@ C:\Users\Computer\RiderProjects\Curs_2_1\Curs_2_1\obj\Debug\Curs_2_1.csproj.Gene
 C:\Users\Computer\RiderProjects\Curs_2_1\Curs_2_1\obj\Debug\Curs_2_1.csproj.CoreCompileInputs.cache
 C:\Users\Computer\RiderProjects\Curs_2_1\Curs_2_1\obj\Debug\Curs_2_1.exe
 C:\Users\Computer\RiderProjects\Curs_2_1\Curs_2_1\obj\Debug\Curs_2_1.pdb
+C:\Users\Computer\RiderProjects\Curs_2_1\Curs_2_1\obj\Debug\Sudoku.Form1.resources
+C:\Users\Computer\RiderProjects\Curs_2_1\Curs_2_1\obj\Debug\Sudoku.Menu.resources
+C:\Users\Computer\RiderProjects\Curs_2_1\Curs_2_1\obj\Debug\Sudoku.NameReading.resources
+C:\Users\Computer\RiderProjects\Curs_2_1\Curs_2_1\obj\Debug\Sudoku.RecordsForm.resources

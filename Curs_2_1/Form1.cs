@@ -6,7 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
+using Timer = System.Windows.Forms.Timer;
 
 namespace Sudoku
 {
@@ -14,12 +16,33 @@ namespace Sudoku
     {
         const int n = 3;
         const int sizeButton = 50;
-        public int[,] map = new int[n * n, n * n];
-        public Button[,] buttons = new Button[n * n, n * n];
+        public int[,] map = new int[n * n, n * n];             //map of game
+        public Button[,] buttons = new Button[n * n, n * n];   //clickable buttons
+        private Timer tm = null; 
+        private int _startValue = 0; // time control
         public Form1()
         {
             InitializeComponent();
             GenerateMap();
+            
+            tm = new Timer();
+            tm.Tick += new EventHandler(tm_Tick); //refresh timer every second
+            tm.Interval = 1000;
+            tm.Start();
+        }
+        
+        private string Int2StringTime(int time) 
+        {
+            int hours = (time - (time % (60 * 60))) / (60 * 60);
+            int minutes = (time - time % 60) / 60 - hours * 60;
+            int seconds = time - hours * 60 * 60 - minutes * 60;
+            return String.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
+        }
+
+        void tm_Tick(object sender, EventArgs e)
+        {
+            label1.Text = Int2StringTime(_startValue);
+            _startValue++;
         }
 
         public void GenerateMap()
@@ -44,29 +67,30 @@ namespace Sudoku
 
         public void HideCells()
         {
-            int CountOfHiddenCells = 40;
+            int CountOfHiddenCells = 1;
             Random r = new Random();
             for (int i = 0; i < n * n; i++)
+            {
+                for (int j = 0; j < n * n; j++)
                 {
-                    for (int j = 0; j < n * n; j++)
+                    if (!string.IsNullOrEmpty(buttons[i, j].Text))
                     {
-                        if (!string.IsNullOrEmpty(buttons[i, j].Text)){
-                            int a = r.Next(0, 3);
-                            buttons[i, j].Text = a == 0 ? "" : buttons[i, j].Text;
-                            buttons[i, j].Enabled = a == 0 ? true : false;
-
+                        if (CountOfHiddenCells > 0)
+                        {
+                            int a = r.Next(0, 3);  //for difficulty it should be changed
+                            //if a==0 then button is enabled and text is covered 
+                            buttons[i, j].Text = (a == 0) ? "" : buttons[i, j].Text;
                             if (a == 0)
                                 CountOfHiddenCells--;
-                            if (CountOfHiddenCells <= 0)
-                                break;
                         }
-                    }
-                    if (CountOfHiddenCells <= 0)
-                        break;
-                }
-        }
 
-        public void ShuffleMap(int i)
+                        if(buttons[i, j].Text != String.Empty)
+                            buttons[i, j].Enabled = false;
+                    }
+                }
+            }
+        }
+        public void ShuffleMap(int i)  //randomizing map
         {
             switch (i)
             {
@@ -220,7 +244,7 @@ namespace Sudoku
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void CheckButton_Click(object sender, EventArgs e)
         {
             for(int i = 0; i < n * n; i++)
             {
@@ -235,14 +259,18 @@ namespace Sudoku
                 }
             }
             MessageBox.Show("Верно!");
-            for(int i = 0; i < n * n; i++)
-            {
-                for (int j = 0; j < n * n; j++)
-                {
-                    this.Controls.Remove(buttons[i, j]);
-                }
-            }
-            GenerateMap();
+            tm.Stop();
+            var nameReading = new NameReading();
+            nameReading.ShowDialog();
+            Close();
+            
         }
+
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+       
     }
 }
