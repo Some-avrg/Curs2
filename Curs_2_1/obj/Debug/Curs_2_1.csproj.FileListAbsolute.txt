@@ -1,0 +1,9 @@
+C:\Users\Computer\RiderProjects\Curs_2_1\Curs_2_1\bin\Debug\Curs_2_1.exe.config
+C:\Users\Computer\RiderProjects\Curs_2_1\Curs_2_1\bin\Debug\Curs_2_1.exe
+C:\Users\Computer\RiderProjects\Curs_2_1\Curs_2_1\bin\Debug\Curs_2_1.pdb
+C:\Users\Computer\RiderProjects\Curs_2_1\Curs_2_1\obj\Debug\Curs_2_1.csprojAssemblyReference.cache
+C:\Users\Computer\RiderProjects\Curs_2_1\Curs_2_1\obj\Debug\Curs_2_1.Properties.Resources.resources
+C:\Users\Computer\RiderProjects\Curs_2_1\Curs_2_1\obj\Debug\Curs_2_1.csproj.GenerateResource.cache
+C:\Users\Computer\RiderProjects\Curs_2_1\Curs_2_1\obj\Debug\Curs_2_1.csproj.CoreCompileInputs.cache
+C:\Users\Computer\RiderProjects\Curs_2_1\Curs_2_1\obj\Debug\Curs_2_1.exe
+C:\Users\Computer\RiderProjects\Curs_2_1\Curs_2_1\obj\Debug\Curs_2_1.pdb
