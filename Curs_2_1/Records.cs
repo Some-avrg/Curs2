@@ -7,30 +7,32 @@ using System.Windows.Forms;
 
 namespace Sudoku
 {
-    [Serializable] public class Records
+    [Serializable]
+    public class Records
     {
         public Records()
         {
-            _records = new List<Record>();
+            ListOfRecords = new List<Record>();
         }
-        
-        private List<Record> _records;
+
+        public List<Record> ListOfRecords;
 
         public void AddRecord(string name, int time)
         {
-            _records.Add(new Record(name, time));
+            ListOfRecords.Add(new Record(name, time));
         }
 
         public bool WriteRecordsInFile(string nameOfFile)
         {
-            if (_records.First() == null) return false;
+            if (ListOfRecords.First() == null) return false;
             FileStream file = new FileStream(nameOfFile, FileMode.Create, FileAccess.Write);
             StreamWriter writer = new StreamWriter(file);
-            foreach (var rec in _records)
+            foreach (var rec in ListOfRecords)
             {
-               writer.WriteLine(rec._name);
-               writer.WriteLine(rec._time);
+                writer.WriteLine(rec.Name);
+                writer.WriteLine(rec.Time);
             }
+
             writer.Close();
             return true;
         }
@@ -51,21 +53,34 @@ namespace Sudoku
             StreamReader reader = new StreamReader(file);
             while (!reader.EndOfStream)
             {
-                _records.Add(new Record(reader.ReadLine(), Int32.Parse(reader.ReadLine())));
+                ListOfRecords.Add(new Record(reader.ReadLine(), Int32.Parse(reader.ReadLine())));
             }
-            
         }
+
     }
 
-    internal class Record
+    public class Record
     {
-        internal string _name;
-        internal int _time;
+        public string Name;
+        public int Time;
 
         public Record(string s, int i)
         {
-            _name = s;
-            _time = i;
+            Name = s;
+            Time = i;
         }
     }
+
+
+    public class BestTime : Comparer<Record>
+    {
+        public override int Compare(Record x, Record y)
+        {
+            if (x.Time.CompareTo(y.Time) != 0)
+                return x.Time.CompareTo(y.Time);
+            
+            return 0;
+        }
+    }
+
 }

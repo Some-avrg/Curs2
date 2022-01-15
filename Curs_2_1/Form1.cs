@@ -14,17 +14,18 @@ namespace Sudoku
 {
     public partial class Form1 : Form
     {
-        const int n = 3;
-        const int sizeButton = 50;
-        public int[,] map = new int[n * n, n * n];             //map of game
-        public Button[,] buttons = new Button[n * n, n * n];   //clickable buttons
+        const int N = 3;
+        const int SizeButton = 50;
+        private Records recordsList;
+        public int[,] map = new int[N * N, N * N];             //map of game
+        public Button[,] buttons = new Button[N * N, N * N];   //clickable buttons
         private Timer tm = null; 
         private int _startValue = 0; // time control
-        public Form1()
+        public Form1(Records rec)
         {
             InitializeComponent();
             GenerateMap();
-            
+            recordsList = rec;
             tm = new Timer();
             tm.Tick += new EventHandler(tm_Tick); //refresh timer every second
             tm.Interval = 1000;
@@ -47,11 +48,11 @@ namespace Sudoku
 
         public void GenerateMap()
         {
-            for(int i = 0; i < n * n; i++)
+            for(int i = 0; i < N * N; i++)
             {
-                for(int j = 0; j < n * n; j++)
+                for(int j = 0; j < N * N; j++)
                 {
-                    map[i, j] = (i * n + i / n + j) % (n * n) + 1;
+                    map[i, j] = (i * N + i / N + j) % (N * N) + 1;
                     buttons[i, j] = new Button();
                 }
             }
@@ -69,9 +70,9 @@ namespace Sudoku
         {
             int CountOfHiddenCells = 1;
             Random r = new Random();
-            for (int i = 0; i < n * n; i++)
+            for (int i = 0; i < N * N; i++)
             {
-                for (int j = 0; j < n * n; j++)
+                for (int j = 0; j < N * N; j++)
                 {
                     if (!string.IsNullOrEmpty(buttons[i, j].Text))
                     {
@@ -118,16 +119,16 @@ namespace Sudoku
         public void SwapBlocksInColumn()
         {
             Random r = new Random();
-            var block1 = r.Next(0, n);
-            var block2 = r.Next(0, n);
+            var block1 = r.Next(0, N);
+            var block2 = r.Next(0, N);
             while (block1 == block2)
-                block2 = r.Next(0, n);
-            block1 *= n;
-            block2 *= n;
-            for (int i = 0; i < n * n; i++)
+                block2 = r.Next(0, N);
+            block1 *= N;
+            block2 *= N;
+            for (int i = 0; i < N * N; i++)
             {
                 var k = block2;
-                for (int j = block1; j < block1 + n; j++)
+                for (int j = block1; j < block1 + N; j++)
                 {
                     var temp = map[i,j];
                     map[i,j] = map[i,k];
@@ -140,16 +141,16 @@ namespace Sudoku
         public void SwapBlocksInRow()
         {
             Random r = new Random();
-            var block1 = r.Next(0, n);
-            var block2 = r.Next(0, n);
+            var block1 = r.Next(0, N);
+            var block2 = r.Next(0, N);
             while (block1 == block2)
-                block2 = r.Next(0, n);
-            block1 *= n;
-            block2 *= n;
-            for(int i = 0; i < n * n; i++)
+                block2 = r.Next(0, N);
+            block1 *= N;
+            block2 *= N;
+            for(int i = 0; i < N * N; i++)
             {
                 var k = block2;
-                for(int j = block1; j < block1 + n; j++)
+                for(int j = block1; j < block1 + N; j++)
                 {
                     var temp = map[j, i];
                     map[j, i] = map[k, i];
@@ -162,14 +163,14 @@ namespace Sudoku
         public void SwapRowsInBlock()
         {
             Random r = new Random();
-            var block = r.Next(0, n);
-            var row1 = r.Next(0, n);
-            var line1 = block * n + row1;
-            var row2 = r.Next(0, n);
+            var block = r.Next(0, N);
+            var row1 = r.Next(0, N);
+            var line1 = block * N + row1;
+            var row2 = r.Next(0, N);
             while (row1 == row2)
-                row2 = r.Next(0, n);
-            var line2 = block * n + row2;
-            for(int i = 0; i < n * n; i++)
+                row2 = r.Next(0, N);
+            var line2 = block * N + row2;
+            for(int i = 0; i < N * N; i++)
             {
                 var temp = map[line1, i];
                 map[line1, i] = map[line2, i];
@@ -180,14 +181,14 @@ namespace Sudoku
         public void SwapColumnsInBlock()
         {
             Random r = new Random();
-            var block = r.Next(0, n);
-            var row1 = r.Next(0, n);
-            var line1 = block * n + row1;
-            var row2 = r.Next(0, n);
+            var block = r.Next(0, N);
+            var row1 = r.Next(0, N);
+            var line1 = block * N + row1;
+            var row2 = r.Next(0, N);
             while (row1 == row2)
-                row2 = r.Next(0, n);
-            var line2 = block * n + row2;
-            for (int i = 0; i < n * n; i++)
+                row2 = r.Next(0, N);
+            var line2 = block * N + row2;
+            for (int i = 0; i < N * N; i++)
             {
                 var temp = map[i,line1];
                 map[ i, line1] = map[i,line2];
@@ -197,10 +198,10 @@ namespace Sudoku
 
         public void MatrixTransposition()
         {
-            int[,] tMap = new int[n * n, n * n];
-            for(int i = 0; i < n * n; i++)
+            int[,] tMap = new int[N * N, N * N];
+            for(int i = 0; i < N * N; i++)
             {
-                for(int j = 0; j < n * n; j++)
+                for(int j = 0; j < N * N; j++)
                 {
                     tMap[i, j] = map[j, i];
                 }
@@ -210,16 +211,16 @@ namespace Sudoku
 
         public void CreateMap()
         {
-            for (int i = 0; i < n * n; i++)
+            for (int i = 0; i < N * N; i++)
             {
-                for (int j = 0; j < n * n; j++)
+                for (int j = 0; j < N * N; j++)
                 {
                     Button button = new Button();
                     buttons[i, j] = button;
-                    button.Size = new Size(sizeButton, sizeButton);
+                    button.Size = new Size(SizeButton, SizeButton);
                     button.Text = map[i, j].ToString();
                     button.Click += OnCellPressed;
-                    button.Location = new Point(j * sizeButton, i * sizeButton);
+                    button.Location = new Point(j * SizeButton, i * SizeButton);
                     this.Controls.Add(button);
                 }
             }
@@ -246,9 +247,9 @@ namespace Sudoku
 
         private void CheckButton_Click(object sender, EventArgs e)
         {
-            for(int i = 0; i < n * n; i++)
+            for(int i = 0; i < N * N; i++)
             {
-                for(int j = 0; j < n * n; j++)
+                for(int j = 0; j < N * N; j++)
                 {
                     var btnText = buttons[i, j].Text;
                     if(btnText != map[i, j].ToString())
@@ -260,7 +261,7 @@ namespace Sudoku
             }
             MessageBox.Show("Верно!");
             tm.Stop();
-            var nameReading = new NameReading();
+            var nameReading = new NameReading(recordsList, _startValue);
             nameReading.ShowDialog();
             Close();
             
