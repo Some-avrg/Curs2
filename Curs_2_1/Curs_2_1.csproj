@@ -46,6 +46,12 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="DifficultyChooseForm.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="DifficultyChooseForm.Designer.cs">
+          <DependentUpon>DifficultyChooseForm.cs</DependentUpon>
+        </Compile>
         <Compile Include="Form1.cs">
             <SubType>Form</SubType>
         </Compile>
@@ -73,6 +79,9 @@
         <Compile Include="RecordsForm.Designer.cs">
           <DependentUpon>RecordsForm.cs</DependentUpon>
         </Compile>
+        <EmbeddedResource Include="DifficultyChooseForm.resx">
+          <DependentUpon>DifficultyChooseForm.cs</DependentUpon>
+        </EmbeddedResource>
         <EmbeddedResource Include="Form1.resx">
           <DependentUpon>Form1.cs</DependentUpon>
         </EmbeddedResource>

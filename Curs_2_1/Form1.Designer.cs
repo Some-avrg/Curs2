@@ -31,6 +31,7 @@
             this.CheckButton = new System.Windows.Forms.Button();
             this.ExitToMenuButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.NoteButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // CheckButton
@@ -60,11 +61,22 @@
             this.label1.Size = new System.Drawing.Size(118, 38);
             this.label1.TabIndex = 2;
             // 
+            // NoteButton
+            // 
+            this.NoteButton.Location = new System.Drawing.Point(520, 123);
+            this.NoteButton.Name = "NoteButton";
+            this.NoteButton.Size = new System.Drawing.Size(73, 41);
+            this.NoteButton.TabIndex = 3;
+            this.NoteButton.Text = "add/remove note";
+            this.NoteButton.UseVisualStyleBackColor = true;
+            this.NoteButton.Click += new System.EventHandler(this.NoteButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(607, 450);
+            this.Controls.Add(this.NoteButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ExitToMenuButton);
             this.Controls.Add(this.CheckButton);
@@ -72,6 +84,8 @@
             this.Text = "Form1";
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.Button NoteButton;
 
         private System.Windows.Forms.Label label1;
 

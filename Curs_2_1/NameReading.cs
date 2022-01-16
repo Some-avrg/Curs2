@@ -22,7 +22,6 @@ namespace Sudoku
             }
             else
             {
-                MessageBox.Show("Entered name: " + textBox1.Text, "Name entering" );
                 _Records.AddRecord(textBox1.Text, time);
                 _Records.ListOfRecords.Sort(new BestTime());
                 Close();

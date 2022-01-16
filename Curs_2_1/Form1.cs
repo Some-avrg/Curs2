@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
@@ -16,6 +17,9 @@ namespace Sudoku
     {
         const int N = 3;
         const int SizeButton = 50;
+        private bool _isNoteMode = false;
+        private int Difficulty = -1;  //0 - easy, 1 - medium, 2 - hard
+         
         private Records recordsList;
         public int[,] map = new int[N * N, N * N];             //map of game
         public Button[,] buttons = new Button[N * N, N * N];   //clickable buttons
@@ -24,6 +28,12 @@ namespace Sudoku
         public Form1(Records rec)
         {
             InitializeComponent();
+            
+            var difChoose = new DifficultyChooseForm();
+            difChoose.ShowDialog();
+            Difficulty = difChoose.GetDifficulty();
+            
+            
             GenerateMap();
             recordsList = rec;
             tm = new Timer();
@@ -42,22 +52,21 @@ namespace Sudoku
 
         void tm_Tick(object sender, EventArgs e)
         {
-            label1.Text = Int2StringTime(_startValue);
             _startValue++;
+            label1.Text = Int2StringTime(_startValue);
         }
 
-        public void GenerateMap()
+        public void GenerateMap()    
         {
             for(int i = 0; i < N * N; i++)
             {
                 for(int j = 0; j < N * N; j++)
                 {
                     map[i, j] = (i * N + i / N + j) % (N * N) + 1;
-                    buttons[i, j] = new Button();
                 }
             }
-            Random r = new Random();
-            for(int i = 0; i < 400; i++)
+            var r = new Random();
+            for(var i = 0; i < 500; i++)
             {
                 ShuffleMap(r.Next(0, 5));
             }
@@ -68,30 +77,33 @@ namespace Sudoku
 
         public void HideCells()
         {
-            int CountOfHiddenCells = 1;
-            Random r = new Random();
-            for (int i = 0; i < N * N; i++)
+            var countOfHiddenCells = 20 + 8 * Difficulty;
+            var r = new Random();
+            
+            while (countOfHiddenCells > 0)  //choose buttons, which will be interactive
             {
-                for (int j = 0; j < N * N; j++)
+                //if a==0 then button is enabled and text is covered 
+                var i = r.Next(0, N * N);
+                var j = r.Next(0, N * N);
+                
+                if (buttons[i, j].Text != String.Empty)
                 {
-                    if (!string.IsNullOrEmpty(buttons[i, j].Text))
-                    {
-                        if (CountOfHiddenCells > 0)
-                        {
-                            int a = r.Next(0, 3);  //for difficulty it should be changed
-                            //if a==0 then button is enabled and text is covered 
-                            buttons[i, j].Text = (a == 0) ? "" : buttons[i, j].Text;
-                            if (a == 0)
-                                CountOfHiddenCells--;
-                        }
-
-                        if(buttons[i, j].Text != String.Empty)
-                            buttons[i, j].Enabled = false;
-                    }
+                    buttons[i, j].Text = "" ;
+                    countOfHiddenCells--;
                 }
             }
+
+            foreach (var button in buttons)  //coloring buttons
+            {
+                if (button.Text != String.Empty)
+                {
+                    button.Enabled = false;
+                    button.BackColor = Color.Bisque;
+                }
+                else button.BackColor = Color.Azure;
+            }
         }
-        public void ShuffleMap(int i)  //randomizing map
+        private void ShuffleMap(int i)  //randomizing map
         {
             switch (i)
             {
@@ -116,7 +128,7 @@ namespace Sudoku
             }
         }
 
-        public void SwapBlocksInColumn()
+        private void SwapBlocksInColumn()
         {
             Random r = new Random();
             var block1 = r.Next(0, N);
@@ -138,7 +150,7 @@ namespace Sudoku
             }
         }
 
-        public void SwapBlocksInRow()
+        private void SwapBlocksInRow()
         {
             Random r = new Random();
             var block1 = r.Next(0, N);
@@ -160,7 +172,7 @@ namespace Sudoku
             }
         }
         
-        public void SwapRowsInBlock()
+        private void SwapRowsInBlock()
         {
             Random r = new Random();
             var block = r.Next(0, N);
@@ -178,7 +190,7 @@ namespace Sudoku
             }
         }
 
-        public void SwapColumnsInBlock()
+        private void SwapColumnsInBlock()
         {
             Random r = new Random();
             var block = r.Next(0, N);
@@ -196,7 +208,7 @@ namespace Sudoku
             }
         }
 
-        public void MatrixTransposition()
+        private void MatrixTransposition()
         {
             int[,] tMap = new int[N * N, N * N];
             for(int i = 0; i < N * N; i++)
@@ -209,13 +221,13 @@ namespace Sudoku
             map = tMap;
         }
 
-        public void CreateMap()
+        private void CreateMap()   //put buttons on screen
         {
             for (int i = 0; i < N * N; i++)
             {
                 for (int j = 0; j < N * N; j++)
                 {
-                    Button button = new Button();
+                    var button = new Button();
                     buttons[i, j] = button;
                     button.Size = new Size(SizeButton, SizeButton);
                     button.Text = map[i, j].ToString();
@@ -225,27 +237,40 @@ namespace Sudoku
                 }
             }
         }
-
-        public void OnCellPressed(object sender, EventArgs e)
+        
+        void OnCellPressed(object sender, EventArgs e)  //button click handling
         {
-            Button pressedButton = sender as Button;
-            string buttonText = pressedButton.Text;
-            if (string.IsNullOrEmpty(buttonText))
+            var pressedButton = sender as Button;
+            if (!_isNoteMode && pressedButton.BackColor != Color.Aqua)
             {
-                pressedButton.Text = "1";
+                string buttonText = pressedButton.Text;
+                if (string.IsNullOrEmpty(buttonText))
+                {
+                    pressedButton.Text = "1";
+                }
+                else
+                {
+                    int num = int.Parse(buttonText);
+                    num++;
+                    if (num == 10)
+                        num = 1;
+                    pressedButton.Text = num.ToString();
+                }
             }
             else
             {
-                int num = int.Parse(buttonText);
-                num++;
-                if (num == 10)
-                    num = 1;
-                pressedButton.Text = num.ToString();
+                if (_isNoteMode)
+                {
+                    pressedButton.BackColor = pressedButton.BackColor == Color.Aqua ? Color.Azure : Color.Aqua;
+                    if (Difficulty == 0)
+                    {
+                        MessageBox.Show(pressedButton.Name);
+                    }
+                }
             }
-
         }
 
-        private void CheckButton_Click(object sender, EventArgs e)
+        private void CheckButton_Click(object sender, EventArgs e)  //Check if solution is right
         {
             for(int i = 0; i < N * N; i++)
             {
@@ -272,6 +297,13 @@ namespace Sudoku
             Close();
         }
 
-       
+
+        private void NoteButton_Click(object sender, EventArgs e)  //switch note mode
+        {
+            var pressedButton = sender as Button;
+            _isNoteMode = !_isNoteMode;
+            if(_isNoteMode) pressedButton.BackColor = Color.Crimson;
+            else pressedButton.BackColor = Color.Snow;
+        }
     }
 }
