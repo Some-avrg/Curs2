@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Runtime.Remoting.Channels;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 
@@ -15,14 +7,14 @@ namespace Sudoku
 {
     public partial class Form1 : Form
     {
-        const int N = 3;
-        const int SizeButton = 50;
+        private const int N = 3;
+        private const int SizeButton = 50;
         private bool _isNoteMode = false;
         private int Difficulty = -1;  //0 - easy, 1 - medium, 2 - hard
          
         private Records recordsList;
-        public int[,] map = new int[N * N, N * N];             //map of game
-        public Button[,] buttons = new Button[N * N, N * N];   //clickable buttons
+        private int[,] map = new int[N * N, N * N];             //map of game
+        private Button[,] buttons = new Button[N * N, N * N];   //clickable buttons
         private Timer tm = null; 
         private int _startValue = 0; // time control
         public Form1(Records rec)
@@ -32,7 +24,6 @@ namespace Sudoku
             var difChoose = new DifficultyChooseForm();
             difChoose.ShowDialog();
             Difficulty = difChoose.GetDifficulty();
-            
             
             GenerateMap();
             recordsList = rec;
@@ -56,7 +47,7 @@ namespace Sudoku
             label1.Text = Int2StringTime(_startValue);
         }
 
-        public void GenerateMap()    
+        private void GenerateMap()    
         {
             for(int i = 0; i < N * N; i++)
             {
@@ -75,9 +66,9 @@ namespace Sudoku
             HideCells();
         }
 
-        public void HideCells()
+        private void HideCells()
         {
-            var countOfHiddenCells = 20 + 8 * Difficulty;
+            var countOfHiddenCells = 20 + 7 * Difficulty;
             var r = new Random();
             
             while (countOfHiddenCells > 0)  //choose buttons, which will be interactive
@@ -223,12 +214,13 @@ namespace Sudoku
 
         private void CreateMap()   //put buttons on screen
         {
-            for (int i = 0; i < N * N; i++)
+            for (var i = 0; i < N * N; i++)
             {
-                for (int j = 0; j < N * N; j++)
+                for (var j = 0; j < N * N; j++)
                 {
                     var button = new Button();
                     buttons[i, j] = button;
+                    button.Name = i.ToString() + j.ToString(); //to know what exactly button is pressed
                     button.Size = new Size(SizeButton, SizeButton);
                     button.Text = map[i, j].ToString();
                     button.Click += OnCellPressed;
@@ -238,7 +230,7 @@ namespace Sudoku
             }
         }
         
-        void OnCellPressed(object sender, EventArgs e)  //button click handling
+        private void OnCellPressed(object sender, EventArgs e)  //button click handling
         {
             var pressedButton = sender as Button;
             if (!_isNoteMode && pressedButton.BackColor != Color.Aqua)
@@ -256,18 +248,73 @@ namespace Sudoku
                         num = 1;
                     pressedButton.Text = num.ToString();
                 }
+                if (pressedButton.BackColor == Color.Red) pressedButton.BackColor = Color.Snow;
             }
-            else
+
+            if (_isNoteMode) //no mistakes mode
             {
-                if (_isNoteMode)
+                //changing color of button and noteButton
+                pressedButton.BackColor = pressedButton.BackColor == Color.Aqua ? Color.Azure : Color.Aqua;
+                NoteButton_Click(this.NoteButton, EventArgs.Empty);  
+                
+                
+                if (Difficulty == 0 && pressedButton.Text != "")
                 {
-                    pressedButton.BackColor = pressedButton.BackColor == Color.Aqua ? Color.Azure : Color.Aqua;
-                    if (Difficulty == 0)
+                    //get position of pressed button on the map
+                    var i = Int32.Parse(pressedButton.Name) / 10;
+                    var j = Int32.Parse(pressedButton.Name) % 10;
+                    var boxI = i / 3;
+                    var boxJ = j / 3;
+                    
+                    if (pressedButton.BackColor != Color.Aqua) 
                     {
-                        MessageBox.Show(pressedButton.Name);
+                        //cancel checking for mistakes in lines
+                        for (var k = 0; k < N * N; k++)
+                        {
+                            if (buttons[i, k].BackColor == Color.Red)
+                            {
+                                if (buttons[i, k].Enabled) buttons[i, k].BackColor = Color.Azure;
+                                else buttons[i, k].BackColor = Color.Bisque;
+                            }
+                            if (buttons[k, j].BackColor == Color.Red)
+                            {
+                                if (buttons[k, j].Enabled) buttons[k, j].BackColor = Color.Azure;
+                                else buttons[k, j].BackColor = Color.Bisque;
+                            }
+                        }
+                        //cancel checking for mistakes in box
+                        for (var m = boxI * N; m < boxI * N + N; m++)
+                        {
+                            for (var n = boxJ * N; n < boxJ * N + N; n++)
+                            {
+                                if (n == j && m == i) continue;
+                                if (buttons[m, n].Enabled) buttons[m, n].BackColor = Color.Snow;
+                                else buttons[m, n].BackColor = Color.Bisque;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //looking for mistakes in lines 
+                        for (var k = 0; k < N * N; k++)
+                        {
+                            if (buttons[i, k].Text == pressedButton.Text && k != j) buttons[i, k].BackColor = Color.Red;
+                            if (buttons[k, j].Text == pressedButton.Text && k != i) buttons[k, j].BackColor = Color.Red;
+                        }
+                        //looking for mistakes in box
+                        for (var m = boxI * N; m < boxI * N + N; m++)
+                        {
+                            for (var n = boxJ * N; n < boxJ * N + N; n++)
+                            {
+                                if (n == j && m == i) continue;
+                                if (buttons[m, n].Text == buttons[i, j].Text) buttons[m, n].BackColor = Color.Red;
+                            }
+                        }
+                        
                     }
                 }
             }
+
         }
 
         private void CheckButton_Click(object sender, EventArgs e)  //Check if solution is right
@@ -279,12 +326,12 @@ namespace Sudoku
                     var btnText = buttons[i, j].Text;
                     if(btnText != map[i, j].ToString())
                     {
-                        MessageBox.Show("Неверно!");
+                        MessageBox.Show("There are still some mistakes");
                         return;
                     }
                 }
             }
-            MessageBox.Show("Верно!");
+            MessageBox.Show("Correct!");
             tm.Stop();
             var nameReading = new NameReading(recordsList, _startValue);
             nameReading.ShowDialog();

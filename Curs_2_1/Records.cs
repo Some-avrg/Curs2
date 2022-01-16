@@ -24,7 +24,7 @@ namespace Sudoku
 
         public bool WriteRecordsInFile(string nameOfFile)
         {
-            if (ListOfRecords.First() == null) return false;
+            if (ListOfRecords.Count == 0) return false;
             FileStream file = new FileStream(nameOfFile, FileMode.Create, FileAccess.Write);
             StreamWriter writer = new StreamWriter(file);
             foreach (var rec in ListOfRecords)
@@ -46,7 +46,7 @@ namespace Sudoku
             }
             catch (Exception)
             {
-                MessageBox.Show("File does not exist");
+                file = new FileStream(nameOfFile, FileMode.Create, FileAccess.Write);
                 return;
             }
 

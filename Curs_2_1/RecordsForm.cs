@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -15,16 +16,16 @@ namespace Sudoku
             {
                 for (var j = 0; j < 2; j++)
                 {
-                    TextBox textBox = new TextBox();
-                    tableLayoutPanel1.Controls.Add(textBox, j + 1, i);
-                    textBox.Multiline = true;
-                    textBox.Dock = DockStyle.Fill;
-                    textBox.BackColor = tableLayoutPanel1.BackColor;
-                    textBox.ReadOnly = true;
+                    var label = new Label();
+                    tableLayoutPanel1.Controls.Add(label, j + 1, i);
+                    label.Dock = DockStyle.Fill;
+                    label.BackColor = tableLayoutPanel1.BackColor;
+                    label.TextAlign = ContentAlignment.MiddleCenter;
+
                     if (recs.ListOfRecords.Count > i)
                     {
-                        if (j == 0) textBox.Text = recs.ListOfRecords[i].Name;
-                        else textBox.Text = recs.ListOfRecords[i].Time.ToString();
+                        if (j == 0) label.Text = recs.ListOfRecords[i].Name;
+                        else label.Text = recs.ListOfRecords[i].Time.ToString();
                     }
                 }
             }

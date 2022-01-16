@@ -43,7 +43,7 @@ namespace Sudoku
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
-            this.label1.Location = new System.Drawing.Point(76, 12);
+            this.label1.Location = new System.Drawing.Point(70, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(196, 45);
             this.label1.TabIndex = 0;
@@ -104,10 +104,11 @@ namespace Sudoku
             this.label4.TabIndex = 6;
             this.label4.Text = "More hidden cells";
             // 
-            // DifficultyChoose_Form
+            // DifficultyChooseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(339, 183);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);

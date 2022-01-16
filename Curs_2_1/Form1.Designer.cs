@@ -32,50 +32,64 @@
             this.ExitToMenuButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.NoteButton = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // CheckButton
             // 
-            this.CheckButton.Location = new System.Drawing.Point(520, 12);
+            this.CheckButton.Location = new System.Drawing.Point(506, 12);
             this.CheckButton.Name = "CheckButton";
-            this.CheckButton.Size = new System.Drawing.Size(75, 23);
+            this.CheckButton.Size = new System.Drawing.Size(89, 37);
             this.CheckButton.TabIndex = 0;
-            this.CheckButton.Text = "Проверить";
+            this.CheckButton.Text = "Check the solution";
             this.CheckButton.UseVisualStyleBackColor = true;
             this.CheckButton.Click += new System.EventHandler(this.CheckButton_Click);
             // 
             // ExitToMenuButton
             // 
-            this.ExitToMenuButton.Location = new System.Drawing.Point(520, 66);
+            this.ExitToMenuButton.Location = new System.Drawing.Point(506, 414);
             this.ExitToMenuButton.Name = "ExitToMenuButton";
-            this.ExitToMenuButton.Size = new System.Drawing.Size(74, 24);
+            this.ExitToMenuButton.Size = new System.Drawing.Size(89, 24);
             this.ExitToMenuButton.TabIndex = 1;
-            this.ExitToMenuButton.Text = "Выход";
+            this.ExitToMenuButton.Text = "Exit";
             this.ExitToMenuButton.UseVisualStyleBackColor = true;
             this.ExitToMenuButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(475, 167);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.label1.Location = new System.Drawing.Point(495, 291);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(118, 38);
+            this.label1.Size = new System.Drawing.Size(100, 38);
             this.label1.TabIndex = 2;
             // 
             // NoteButton
             // 
-            this.NoteButton.Location = new System.Drawing.Point(520, 123);
+            this.NoteButton.Location = new System.Drawing.Point(508, 113);
             this.NoteButton.Name = "NoteButton";
-            this.NoteButton.Size = new System.Drawing.Size(73, 41);
+            this.NoteButton.Size = new System.Drawing.Size(87, 41);
             this.NoteButton.TabIndex = 3;
-            this.NoteButton.Text = "add/remove note";
+            this.NoteButton.Text = "Add/Remove note";
             this.NoteButton.UseVisualStyleBackColor = true;
             this.NoteButton.Click += new System.EventHandler(this.NoteButton_Click);
+            // 
+            // label2
+            // 
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+            this.label2.Location = new System.Drawing.Point(473, 242);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(122, 35);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Time past:";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(607, 450);
+            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ClientSize = new System.Drawing.Size(605, 450);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.NoteButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ExitToMenuButton);
@@ -84,6 +98,8 @@
             this.Text = "Form1";
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.Label label2;
 
         private System.Windows.Forms.Button NoteButton;
 

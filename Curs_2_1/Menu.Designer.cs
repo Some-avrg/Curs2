@@ -70,7 +70,8 @@ namespace Sudoku
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(347, 298);
+            this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.ClientSize = new System.Drawing.Size(355, 298);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.RecordsButton);
             this.Controls.Add(this.StartButton);
