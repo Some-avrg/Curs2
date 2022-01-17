@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Sudoku
+namespace Curse_2_1
 {
     [Serializable]
     public class Records

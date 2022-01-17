@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace Sudoku
+namespace Curse_2_1
 {
     public partial class NameReading : Form
     {

@@ -1,12 +1,12 @@
 using System;
 using System.Windows.Forms;
 
-namespace Sudoku
+namespace Curse_2_1
 {
     public partial class Menu : Form
     {
         private string nameOfFile = "Records.txt";
-        public Records recs = new Records();
+        private Records recs = new Records();
         public Menu()
         {
             InitializeComponent();
@@ -24,7 +24,7 @@ namespace Sudoku
 
         private void ViewRecords(object sender, EventArgs e)
         {
-            recs.ReadRecordsFromFile(nameOfFile);
+            if (recs.ListOfRecords.Count == 0) recs.ReadRecordsFromFile(nameOfFile);
             var records = new RecordsForm(recs);
             Hide();
             records.ShowDialog();

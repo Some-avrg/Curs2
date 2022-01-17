@@ -3,12 +3,13 @@ using System.Drawing;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 
-namespace Sudoku
+namespace Curse_2_1
 {
     public partial class Form1 : Form
     {
         private const int N = 3;
         private const int SizeButton = 50;
+        
         private bool _isNoteMode = false;
         private int Difficulty = -1;  //0 - easy, 1 - medium, 2 - hard
          
@@ -91,7 +92,7 @@ namespace Sudoku
                     button.Enabled = false;
                     button.BackColor = Color.Bisque;
                 }
-                else button.BackColor = Color.Azure;
+                else button.BackColor = Color.Snow;
             }
         }
         private void ShuffleMap(int i)  //randomizing map
@@ -254,7 +255,7 @@ namespace Sudoku
             if (_isNoteMode) //no mistakes mode
             {
                 //changing color of button and noteButton
-                pressedButton.BackColor = pressedButton.BackColor == Color.Aqua ? Color.Azure : Color.Aqua;
+                pressedButton.BackColor = pressedButton.BackColor == Color.Aqua ? Color.Snow : Color.Aqua;
                 NoteButton_Click(this.NoteButton, EventArgs.Empty);  
                 
                 
@@ -273,12 +274,12 @@ namespace Sudoku
                         {
                             if (buttons[i, k].BackColor == Color.Red)
                             {
-                                if (buttons[i, k].Enabled) buttons[i, k].BackColor = Color.Azure;
+                                if (buttons[i, k].Enabled) buttons[i, k].BackColor = Color.Snow;
                                 else buttons[i, k].BackColor = Color.Bisque;
                             }
                             if (buttons[k, j].BackColor == Color.Red)
                             {
-                                if (buttons[k, j].Enabled) buttons[k, j].BackColor = Color.Azure;
+                                if (buttons[k, j].Enabled) buttons[k, j].BackColor = Color.Snow;
                                 else buttons[k, j].BackColor = Color.Bisque;
                             }
                         }

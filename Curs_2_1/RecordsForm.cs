@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Sudoku
+namespace Curse_2_1
 {
     public partial class RecordsForm : Form
     {
@@ -25,7 +25,14 @@ namespace Sudoku
                     if (recs.ListOfRecords.Count > i)
                     {
                         if (j == 0) label.Text = recs.ListOfRecords[i].Name;
-                        else label.Text = recs.ListOfRecords[i].Time.ToString();
+                        else
+                        {
+                            var time = recs.ListOfRecords[i].Time;
+                            var hours = (time - (time % (60 * 60))) / (60 * 60);
+                            var minutes = (time - time % 60) / 60 - hours * 60;
+                            var seconds = time - hours * 60 * 60 - minutes * 60;
+                            label.Text = String.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
+                        }
                     }
                 }
             }

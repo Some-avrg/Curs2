@@ -1,4 +1,4 @@
-﻿namespace Sudoku
+﻿namespace Curse_2_1
 {
     partial class Form1
     {

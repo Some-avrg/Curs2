@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace Sudoku
+namespace Curse_2_1
 {
     partial class DifficultyChooseForm
     {
